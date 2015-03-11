@@ -1,5 +1,9 @@
-package com.github.krre.kotlin
+package kotlinlib
+
+import signal.*
 
 fun main(args: Array<String>) {
-    println("Hi!")
+    test.signal.run()
 }
+
+
