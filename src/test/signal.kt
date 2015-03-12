@@ -6,11 +6,11 @@ fun run() {
     val a = A()
     val b = B()
     val c = C()
-    connect(a, { a.onXChanged(0)}, b, {b.slot(0)})
-//    connect(a, onXChanged, c, slot)
+    SigSlot.connect(a.onXChanged, b.slot)
+    SigSlot.connect(a.onXChanged, c.slot)
     a.x = 10
+    a.x = 56
 }
-
 
 class A() {
     var x: Int = 0
@@ -20,13 +20,13 @@ class A() {
                 onXChanged(x)
             }
         }
-    fun onXChanged(x: Int) {}
+    val onXChanged: (Any) -> Unit = { x -> SigSlot.action(onXChanged, x) }
 }
 
 class B() {
-    fun slot(x: Int) { println("class B, x = $x") }
+    val slot: (Any) -> Unit = { x -> println("slot class B, x = $x") }
 }
 
 class C() {
-    fun slot(x: Int) { println("class C, x = $x") }
+    val slot: (Any) -> Unit = { x -> println("slot class C, x = $x") }
 }
