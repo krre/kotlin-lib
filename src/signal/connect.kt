@@ -7,34 +7,27 @@ object SigSlot {
 
     fun connect(signal: (Any) -> Unit, slot: (Any) -> Unit) {
         if (!signalMap.containsKey(signal)) {
-            val list = listOf(slot).toArrayList()
-            signalMap.put(signal, list)
+            signalMap.put(signal, listOf(slot).toArrayList())
         } else {
             signalMap.get(signal).add(slot)
         }
     }
 
     fun disconnect(signal: (Any) -> Unit, slot: (Any) -> Unit) {
-        if (signalMap.containsKey(signal)) {
-            val slots = signalMap.get(signal)
-            for (i in slots.indices) {
-                if (slots.get(i) == slot) {
-                    slots.remove(i)
-                    if (slots.count() == 0) {
-                        signalMap.remove(signal)
-                    }
-                    return
-                }
+        val slots = signalMap.get(signal)
+        if (slots != null) {
+            slots.filter { it == slot } map { slots.remove(it) }
+            if (slots.count() == 0) {
+                signalMap.remove(signal)
             }
         }
     }
 
     fun action(signal: Any, value: Any) {
-        for ((sig, slots) in signalMap) {
-            if (sig == signal) {
-                for(slot in slots) {
-                    slot(value)
-                }
+        val slots = signalMap.get(signal)
+        if (slots != null) {
+            for(slot in slots) {
+                slot(value)
             }
         }
     }
