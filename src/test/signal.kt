@@ -1,6 +1,7 @@
 package test.signal
 
 import signal.*
+import kotlin.properties.Delegates
 
 fun run() {
     val a = A()
@@ -16,13 +17,9 @@ fun run() {
 }
 
 class A() {
-    var x: Int = 0
-        set(value) {
-            if (value != x) {
-                $x = value
-                onXChanged(x)
-            }
-        }
+    var x: Int by Delegates.observable(0) {
+        d, old, new -> if (old != new) onXChanged(new)
+    }
     val onXChanged: (Any) -> Unit = { x -> SigSlot.action(onXChanged, x) }
 }
 
