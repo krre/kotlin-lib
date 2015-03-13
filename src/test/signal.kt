@@ -9,6 +9,7 @@ fun run() {
     SigSlot.connect(a.onXChanged, b.slot)
     SigSlot.connect(a.onXChanged, c.slot)
     a.x = 10
+    SigSlot.disconnect(a.onXChanged, c.slot)
     a.x = 56
 }
 

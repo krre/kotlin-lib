@@ -14,6 +14,18 @@ object SigSlot {
         }
     }
 
+    fun disconnect(signal: (Any) -> Unit, slot: (Any) -> Unit) {
+        if (signalMap.containsKey(signal)) {
+            val slots = signalMap.get(signal)
+            for (i in slots.indices) {
+                if (slots.get(i) == slot) {
+                    slots.remove(i)
+                    return
+                }
+            }
+        }
+    }
+
     fun action(signal: Any, value: Any) {
         for ((sig, slots) in signalMap) {
             if (sig == signal) {
