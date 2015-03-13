@@ -11,6 +11,8 @@ fun run() {
     a.x = 10
     SigSlot.disconnect(a.onXChanged, c.slot)
     a.x = 56
+    SigSlot.disconnect(a.onXChanged, b.slot)
+    a.x = 12
 }
 
 class A() {

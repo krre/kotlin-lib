@@ -20,6 +20,9 @@ object SigSlot {
             for (i in slots.indices) {
                 if (slots.get(i) == slot) {
                     slots.remove(i)
+                    if (slots.count() == 0) {
+                        signalMap.remove(signal)
+                    }
                     return
                 }
             }
