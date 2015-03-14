@@ -1,6 +1,6 @@
 package test.signal
 
-import signal.*
+import signal.SigSlot
 import kotlin.properties.Delegates
 
 fun run() {
